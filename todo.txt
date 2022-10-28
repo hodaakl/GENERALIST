@@ -13,3 +13,4 @@ Code
 [] save only torch or numpy files for space conservation
 [check] create file that runs the inference using only hiperparameters
 [check] make the Convert_fastatoNP funciton learn the sequence length on its own and remove it from compile_generalist 
+[] relabel the seqs in the msa which the true label from the OG msa. 
