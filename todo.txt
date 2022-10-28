@@ -1,10 +1,12 @@
 to do:
 
-Organization
-[] add a jupyter notebook to look like main.py
+[] add Jupyter folder that contains notebooks for 
+	[] running inference 
+	[] running tests on generated dataset 
+[] add folder to include the implementation for ardca , bmdca -- how we get the probabilities from these models.
 [] Comment ALL files 
 [] Work on readme to 
-    [] explain what the files are 
+    [in progress] explain what the files are 
     [] 
 
 Code 
