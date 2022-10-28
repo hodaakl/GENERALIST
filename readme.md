@@ -1,5 +1,6 @@
 # GENERALIST  -- WIP
 Authors: Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushottam Dixit
+
 Generative Tensor Factorization Model for Protein Sequences and generally categorical data. 
 
 University of Florida  
