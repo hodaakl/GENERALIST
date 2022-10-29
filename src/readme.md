@@ -1,10 +1,9 @@
 # Source code for GENERALIST 
 ### Required python packages 
-- torch 
-- numpy 
-- os 
-- time
-- datetime
+- torch # to run inference , parameters are saved as torch tensors
+- numpy # to load and manipulate data , parameters are saved as numpy arrays
+- os    # to create the output folder if it doesn't exist
+- time  # to calculate how log the inference takes
 
 ### Description of the files 
 - main.py
