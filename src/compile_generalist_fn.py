@@ -1,7 +1,6 @@
 import numpy as np
 import time
 import os
-from datetime import date
 import torch  # torch einsum function is much faster than numpy einsum. Install torch for fastest inference, otherwise , in the code below,  change torch. to np. and the code should run fine.
 from inference_fns import  calc_deri, calc_loglikelihood, adaptive_newparams
 from data_process_fns import Convert_fastaToNp , write_file , Numerify
@@ -51,9 +50,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         z = torch.rand(nS, k) ; z = z.to(device)
         t = torch.rand(nA, k, nP) ; t = t.to(device)
     ### DEFINE FILENAMES
-    today = date.today()
-    d3 = today.strftime("%m%d%y")
-    filename = out_dir + f'/details_{d3}.txt'
+    filename = out_dir + f'/run_details.txt'
     filename_LL = out_dir + f'/Larr_k{k}'
     filename_Z = out_dir + f'/Z_k{k}'
     filename_T = out_dir + f'/T_k{k}'
