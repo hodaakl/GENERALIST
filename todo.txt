@@ -10,6 +10,8 @@ To do:
     [] 
 [] add versions to requires python packages 
 [] add to the readme on the repo that fasta file should have all uppercase letters with - as gaps (not . )
+[] add readme to each folder in the repo
+
 
 Code 
 
