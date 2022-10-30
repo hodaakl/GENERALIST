@@ -1,8 +1,8 @@
 To do:
 
 [] add Jupyter folder that contains notebooks for 
-	[] running inference 
-	[] running tests on generated dataset 
+	[] notebook1: running inference and generating sequences (similar to /src/main.py )
+	[] notebook2 : running tests on generated dataset (stats, hamming)
 [] add folder to include the implementation for ardca , bmdca -- how we get the probabilities from these models.
 [] Comment ALL files 
 [] Work on readme to 
