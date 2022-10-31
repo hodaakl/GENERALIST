@@ -97,7 +97,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         i=i+1 # add 1 to counter 
         # 
         if i==1:
-            print(f'takes {time.time()-t0} seconds for 1 step')    
+            print(f'takes {time.time()-t0} seconds for the first step')    
         # if it is time to save 
         if i%save_step==0: 
             torch.save(Larr[:i], filename_LL )
@@ -107,7 +107,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
             torch.save(eng_arr[:i], filename_Tgrad)
         if i==steps:
             # if reached maximum steps 
-            print('reached maximum steps, quitting inference')
+            print('reached maximum steps, quitting inference -- consider increasing the max number of steps allowed')
             break    
     t1 = time.time()
     print(f'Inference is over')
