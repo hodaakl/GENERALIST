@@ -25,7 +25,7 @@ University of Florida
 
 Physics Department 
 
-Dixit Laboratory of Computational Biophysics
+Laboratory of Computational Biophysics
 
 2022
 
