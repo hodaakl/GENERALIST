@@ -1,7 +1,7 @@
 import numpy as np
 import time
 import os
-import torch  # torch einsum function is much faster than numpy einsum. Install torch for fastest inference, otherwise , in the code below,  change torch. to np. and the code should run fine.
+import torch  
 from inference_fns import  calc_deri, calc_loglikelihood, adaptive_newparams
 from data_process_fns import Convert_fastaToNp , write_file , Numerify
 
