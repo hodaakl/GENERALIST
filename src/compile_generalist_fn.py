@@ -136,7 +136,6 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
     t = t.numpy()
     bng_arr = bng_arr.numpy()
     eng_arr = eng_arr.numpy()
-    sigmas = sigmas.numpy()
     # SAVE THE NUMPY ARRAYS 
     np.save(filename_LL , Larr)
     np.save(filename_Z, z)
