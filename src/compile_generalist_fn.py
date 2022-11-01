@@ -47,8 +47,10 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         z = torch.load(input_path_Z, map_location=torch.device(device)) ; z = z.to(device)
         t = torch.load(input_path_T,map_location=torch.device(device) ) ; t = t.to(device)
     else: 
-        z = torch.rand(nS, k) ; z = z.to(device)
-        t = torch.rand(nA, k, nP) ; t = t.to(device)
+        # initialize Z and Theta . Note: if they are too big , they cause numerical errors because those will be in the
+        # exponent. So we normalize them first as not to deal with any numerical errors. 
+        z = torch.rand(nS, k); z = z/torch.linalg.norm(z) ; z = z.to(device)
+        t = torch.rand(nA, k, nP) ; t = t/torch.linalg.norm(t); t = t.to(device)
     ### DEFINE FILENAMES
     filename = out_dir + f'/run_details.txt'
     filename_LL = out_dir + f'/Larr_k{k}'
