@@ -76,7 +76,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
     eng_arr = torch.zeros(steps) ; eng_arr = eng_arr.to(device)# E norn grad
     # 
   
-    details = f'Adaptive algorithm\nwhile loop until norm(gradZ/T)/norm(Z/T)<{thresh}\nNon variational run \n USING ADAM ALGORITHM\n alpha = {alpha}\nk={k}\nsaving every {save_step} steps\nmaximum steps ={steps}'
+    details = f'Adaptive algorithm\nwhile loop until norm(gradZ/T)/norm(Z/T)<{thresh}\nNon variational run\nUSING ADAM ALGORITHM\nalpha = {alpha}\nk={k}\nsaving every {save_step} steps\nmaximum steps ={steps}'
     write_file(filename, details)
     t0 = time.time()
 
@@ -147,5 +147,5 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
     details = f'Inference ran on{device}\nAlgorithm took {(t1-t0)/60} minutes to run - ran for {i} steps\nAdaptive algorithm for Protein is\nUSING ADAM ALGORITHM\nwhile loop until norm(gradB/E)/norm(B/E) < {thresh}\nalpha = {alpha}\nk = {k}\nsaving every {save_step} steps\nmaximum steps = {steps}'
     write_file(filename, details)
     print(f'Updated details files')
-    print(f'inference done in {(t1-t0)/60} minutes for k = {k}\n output files at directory {out_dir}')
+    print(f'inference done in {(t1-t0)/60} minutes for k = {k}\noutput files at directory {out_dir}')
     return 
