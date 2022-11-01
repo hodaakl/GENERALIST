@@ -21,3 +21,4 @@ Code
 [check] make the Convert_fastatoNP funciton learn the sequence length on its own and remove it from compile_generalist 
 [] relabel the seqs in the msa which the true label from the OG msa. 
 [] update the Generator function to use einsum instead of matmul  -- debatable
+[] fix the ardca folder in benchmark to add relevant paths and make the code run on repo directory
