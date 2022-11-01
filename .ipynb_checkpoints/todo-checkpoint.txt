@@ -1,0 +1,24 @@
+To do:
+
+[] add Jupyter folder that contains notebooks for 
+	[] notebook1: running inference and generating sequences (similar to /src/main.py )
+	[] notebook2 : running tests on generated dataset (stats, hamming)
+[] add folder to include the implementation for ardca , bmdca -- how we get the probabilities from these models.
+[] Comment ALL files 
+[] Work on readme to 
+    [in progress] explain what the files are 
+    [] 
+[] add versions to requires python packages 
+[] add to the readme on the repo that fasta file should have all uppercase letters with - as gaps (not . )
+[] add readme to each folder in the repo
+
+
+Code 
+
+[] In convert fasta to np and in covert np to fasta , make the categories list an input so that it can be used over other dataset that is DNA or rNA seq data.
+[] save only torch or numpy files for space conservation
+[check] create file that runs the inference using only hiperparameters
+[check] make the Convert_fastatoNP funciton learn the sequence length on its own and remove it from compile_generalist 
+[] relabel the seqs in the msa which the true label from the OG msa. 
+[] update the Generator function to use einsum instead of matmul  -- debatable
+[] fix the ardca folder in benchmark to add relevant paths and make the code run on repo directory
