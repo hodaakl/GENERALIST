@@ -27,7 +27,7 @@ generalist(fasta_path = FastaFilePath, k = k, out_dir = output_directory) #
 from loader_class import Generator
 ngen = 1000
 Gen_obj = Generator(output_directory, k = k)
-generated_data = Gen_obj.GenData(ngen)
+generated_data = Gen_obj.GenData(ngen) #numpy array
 print(generated_data.shape)
 ### save the generated dataset as a fasta file 
 from data_process_fns import Conv_save_NpToFasta
