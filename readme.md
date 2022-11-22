@@ -1,4 +1,4 @@
-# GENERALIST  -- WIP
+# GENERALIST: An efficient generative model for protein sequence families
 Authors: Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushottam Dixit
 
 Generative Model for protein sequences and generally for categorical data. 
@@ -16,7 +16,7 @@ Generative Model for protein sequences and generally for categorical data.
 
     Contains implementation of published code and other developed code to compare other models (bmdca, ardca, VAE) to GENERALIST.
 
-- todo.txt. 
+- todo.txt
 
     Contains list of to do items and ideas for this repo.  
 
