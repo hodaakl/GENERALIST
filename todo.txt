@@ -8,20 +8,23 @@ To do:
 [] Work on readme to 
     [in progress] explain what the files are 
     [] 
-[] add versions to requires python packages 
+
 [] add to the readme on the repo that fasta file should have all uppercase letters with - as gaps (not . )
 [] add readme to each folder in the repo
 [] Tell Brooke to edit the Adabmdca repo with her code
+✅ add versions to requires python packages -- src/requirements.txt
 
 Code 
 
 [] In convert fasta to np and in covert np to fasta , make the categories list an input so that it can be used over other dataset that is DNA or rNA seq data.
 [] save only torch or numpy files for space conservation
-[check] create file that runs the inference using only hiperparameters
-[check] make the Convert_fastatoNP funciton learn the sequence length on its own and remove it from compile_generalist 
-[] relabel the seqs in the msa which the true label from the OG msa. 
 [] update the Generator function to use einsum instead of matmul  -- debatable
 [] fix the ardca folder in benchmark to add relevant paths and make the code run on repo directory
+✅ create file that runs the inference using only hiperparameters
+✅ make the Convert_fastatoNP funciton learn the sequence length on its own and remove it from compile_generalist 
+
+low priority : 
+[] relabel the seqs in the msa which the true label from the OG msa. 
 
 Current status 
 Nov 22,2022
