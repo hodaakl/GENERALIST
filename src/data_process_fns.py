@@ -34,7 +34,6 @@ def Binarify(matrix):
 def Convert_fastaToNp(filepath, binary = True, labels_inc =True): 
     """  Takes a file path and convert the fasta file of protein sequences to a numpy array 
     Input:  filepath  (path to the fasta file)
-            Seq_len (expected sequence length : sometimes the fasta file is written with a space at the end which causes issues, this input takes care of it)
             binary (outputs a one hot encoded matrix , set to False to get the numerical encoding of amino acids in a 2D shape)
             labels_inc (are the labels included in the fasta file? every sequence will be proceeded by >some_label, otherwise set to False.)
     Output: 3D matrix of length, one hot encoded (21, nSequences, nPositions) if binary = True. 
