@@ -3,9 +3,9 @@ import time
 import os
 import torch  
 from inference_fns import  calc_deri, calc_loglikelihood, adaptive_newparams
-from data_process_fns import Convert_fastaToNp , write_file , Numerify
+from data_process_fns import Convert_fastaToNp , write_file 
 
-def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7), labels_inc = True): 
+def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7), labels_inc = True, use_gpu_if_avail = True): 
     """function that runs the inference -- optimization uses adam algorithm
         Input:
         fasta_path:  fasta file (msa) of protein family 
@@ -15,7 +15,8 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         thresh (default 1) : inference steps when |grad(Z)|/|Z| is less than thresh , same for theta  # threshold for stopping 
         alpha (default .01) : for the adaptive learning rate
         steps (default 10^7 ) : maximum number of allowed steps
-        labels_inc (default true) : in the msa there are labels for sequences not only sequences
+        labels_inc (default true) : in the msa there are labels for sequences (the lines starting with > before the sequence) not only sequences.
+        use_gpu_if_avail(default true): If GPU available the code defaults to using it. Set to False to use CPU anyway.
 
         Outputs: 
         Written as files in the output directory: 
@@ -25,7 +26,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         
     """
     ## cpu or gpu 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:0" if (torch.cuda.is_available() and use_gpu_if_avail) else "cpu")
     print('running on' , device)
     # define date
     # make the output folder if it does not exist
@@ -34,7 +35,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         # if not , make output folder 
         os.mkdir(out_dir)
     # create the one hot encoded data : sigmas from the fasta file
-    sigmas = Convert_fastaToNp(fasta_path)
+    sigmas = Convert_fastaToNp(fasta_path, labels_inc= labels_inc)
     print(f'one hot encoded data of size {sigmas.shape}')
     nA,nS,nP = sigmas.shape # nA number of categories , nS : number of sequences, nP : length of the sequence (number o fpositions)
     sigmas = torch.from_numpy(sigmas) ; sigmas = sigmas.to(device) 
