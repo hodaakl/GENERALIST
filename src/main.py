@@ -16,9 +16,10 @@
 """
 ############################################ RUN INFERENCE #####################################################
 from compile_generalist_fn import generalist
+import numpy as np
 # necessary arguments for generalist
 FastaFilePath  = '../data/msa_p53_unimsa.fa' # file path of the fasta file 
-k= 2 # decide on the latent dimension for the model
+k= 7 # decide on the latent dimension for the model
 output_directory = f'../p53_output_k{k}/' # the output directory where the parameters will be saved 
 #This function should detect a gpu if available, otherwise runs on cpu
 generalist(fasta_path = FastaFilePath, k = k, out_dir = output_directory) # 
@@ -29,6 +30,10 @@ ngen = 1000
 Gen_obj = Generator(output_directory, k = k)
 generated_data = Gen_obj.GenData(ngen) #numpy array
 print(generated_data.shape)
+### save the generated dataset as numpy matrix 
+file_name = f'generated_data.npy'
+output_fn = f'{output_directory}filename'
+np.save(output_fn, generated_data)
 ### save the generated dataset as a fasta file 
 from data_process_fns import Conv_save_NpToFasta
 Conv_save_NpToFasta(generated_data, path= output_directory + f'generated_set_k{k}.fa',  label = 'generated_seq', verbose = False , save = True, include_fish_sym = True)
