@@ -1,9 +1,8 @@
 from statistics import mean
 import numpy as np
-import matplotlib.pyplot as plt 
 import random
 import time
-from DataProcess import Numerify, Binarify
+from data_process_fns import Numerify, Binarify
 
 
 def Calc_nBody_Corr(Data, Gen, n=2, nTest = 7000, mean_removed = True, weights = np.array([1])):
