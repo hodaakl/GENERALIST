@@ -16,6 +16,8 @@ To do:
 
 Code 
 
+
+[] i think i should revert back to the input of generalist being one hot encoded matrix, because then it generalizes better for other datasets where the number of categories is not 21 (not a fasta file for a protein) -- or could add another argument where user can also add a one hot matrix.. but i guess that's confusing
 [] In convert fasta to np and in covert np to fasta , make the categories list an input so that it can be used over other dataset that is DNA or rNA seq data.
 [] save only torch or numpy files for space conservation
 [] update the Generator function to use einsum instead of matmul  -- debatable
@@ -25,37 +27,3 @@ Code
 
 low priority : 
 [] relabel the seqs in the msa which the true label from the OG msa. 
-
-Current status 
-Nov 22,2022
-Code runs well on CPU -- both locally and on the cluster using a submitted CPU job or in the terminal. 
-
-Code runs fine on GPU hpg jupyter lab but and through the submitted job requiring gpu partition. 
-
-## error if specify the constraint to be a100 below is the .out file 
-/blue/pdixit/hodaakl/JobsOut
-c1104a-s17.ufhpc
-Tue Nov 22 17:21:49 EST 2022
-/apps/python/3.8/lib/python3.8/site-packages/torch/cuda/__init__.py:146: UserWarning:
-NVIDIA A100-SXM4-80GB with CUDA capability sm_80 is not compatible with the current PyTorch installation.
-The current PyTorch install supports CUDA capabilities sm_37 sm_50 sm_60 sm_70.
-If you want to use the NVIDIA A100-SXM4-80GB GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/
-
-  warnings.warn(incompatible_device_warn.format(device_name, capability, " ".join(arch_list), device_name))
-running on cuda:0
-one hot encoded data of size (21, 785, 341)
-wrote details file
-started inference..
-Traceback (most recent call last):
-  File "/blue/pdixit/hodaakl/A4PSV/Code/GENERALIST/src/main_hpg_run.py", line 24, in <module>
-    generalist(fasta_path = FastaFilePath, k = k, out_dir = output_directory) #
-  File "/blue/pdixit/hodaakl/A4PSV/Code/GENERALIST/src/compile_generalist_fn.py", line 87, in generalist
-    der_z, der_t, g = calc_deri(z,t,sigmas)
-  File "/blue/pdixit/hodaakl/A4PSV/Code/GENERALIST/src/inference_fns.py", line 9, in calc_deri
-    g = torch.einsum("nk,dkl -> dnl",z,t)
-  File "/apps/python/3.8/lib/python3.8/site-packages/torch/functional.py", line 360, in einsum
-    return _VF.einsum(equation, operands)  # type: ignore[attr-defined]
-RuntimeError: CUDA error: no kernel image is available for execution on the device
-CUDA kernel errors might be asynchronously reported at some other API call,so the stacktrace below might be incorrect.
-For debugging consider passing CUDA_LAUNCH_BLOCKING=1.
-Tue Nov 22 17:21:54 EST 2022
