@@ -148,7 +148,7 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
 
     seq = list(seq_i); seq_changed = list(seq_i) # Initialize the sequence_i and sequence changed
 
-    prob_i = calc_prob(J_arr, h_arr, seq); prob = prob_i # Get the probability of the initial sequence, set equal to current prob
+    prob_i = calc_n_hamiltonian(J_arr, h_arr, seq); prob = prob_i # Get the probability of the initial sequence, set equal to current prob
 
     while(count < stop_num * L):
         pos = random.randint(0, L - 1) # pick random position to mutate
@@ -156,7 +156,7 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
 
         seq_changed[pos] = aa # change sequence
 
-        prob_f = calc_prob(J_arr, h_arr, seq_changed) # calc prob of the mutated sequence
+        prob_f = calc_n_hamiltonian(J_arr, h_arr, seq_changed) # calc prob of the mutated sequence
 
         # If sequence is better accept it
         if prob_f > prob:
@@ -207,7 +207,7 @@ def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):
     n = random.randint(0, seq_arr.shape[0] - 1) # Pick random sequece
     seq = list(seq_arr[n]); seq_changed = list(seq_arr[n]) # Initialize the sequence_i and sequence changed
 
-    prob_i = calc_prob_2(J_arr, h_arr, seq) # Get the probability of the initial sequence
+    prob_i = calc_n_hamiltonian(J_arr, h_arr, seq) # Get the probability of the initial sequence
 
     while(count < stop_num * seq_arr.shape[1]):
         pos = random.randint(0, seq_arr.shape[1] - 1) # pick random position to mutate
@@ -216,7 +216,7 @@ def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):
         seq_changed[pos] = aa # change sequence
         
 
-        prob_f = calc_prob_2(J_arr, h_arr, seq_changed) # calc prob of the mutated sequence
+        prob_f = calc_n_hamiltonian(J_arr, h_arr, seq_changed) # calc prob of the mutated sequence
 
         # If sequence is better accept it
         if prob_f > prob_i:
