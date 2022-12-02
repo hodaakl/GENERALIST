@@ -1,5 +1,5 @@
 To do:
-
+[] add a file for the natural sequences for BPT1 used to get the local optima
 [] add Jupyter folder that contains notebooks for 
 	[] notebook1: running inference and generating sequences (similar to /src/main.py )
 	[] notebook2 : running tests on generated dataset (stats, hamming)
