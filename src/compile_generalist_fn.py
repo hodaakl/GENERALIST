@@ -3,9 +3,9 @@ import time
 import os
 import torch  
 from inference_fns import  calc_deri, calc_loglikelihood, adaptive_newparams
-from data_process_fns import Convert_fastaToNp , write_file 
+from data_process_fns import  write_file 
 
-def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7), labels_inc = True, use_gpu_if_avail = True): 
+def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7),  use_gpu_if_avail = True): 
     """function that runs the inference -- optimization uses adam algorithm
         Input:
         fasta_path:  fasta file (msa) of protein family 
@@ -35,7 +35,7 @@ def generalist(fasta_path, k , out_dir,  save_step = 100, thresh = 1, alpha = .0
         # if not , make output folder 
         os.mkdir(out_dir)
     # create the one hot encoded data : sigmas from the fasta file
-    sigmas = Convert_fastaToNp(fasta_path, labels_inc= labels_inc)
+    # sigmas = Convert_fastaToNp(fasta_path, labels_inc= labels_inc)
     print(f'one hot encoded data of size {sigmas.shape}')
     nA,nS,nP = sigmas.shape # nA number of categories , nS : number of sequences, nP : length of the sequence (number o fpositions)
     sigmas = torch.from_numpy(sigmas) ; sigmas = sigmas.to(device) 
