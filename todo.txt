@@ -1,14 +1,14 @@
+
+
+
 To do:
+🟢 add Jupyter tutorial 
+[] improve on the benchmark/ardca to make it more obvious what we did with that model
 [] add a file for the natural sequences for BPT1 used to get the local optima
-[] add Jupyter folder that contains notebooks for 
-	[] notebook1: running inference and generating sequences (similar to /src/main.py )
-	[] notebook2 : running tests on generated dataset (stats, hamming)
 [] add folder to include the implementation for ardca , bmdca -- how we get the probabilities from these models.
 [] Comment ALL files 
 [] Work on readme to 
-    [in progress] explain what the files are 
-    [] 
-
+    🟢 explain what the files are 
 [] add to the readme on the repo that fasta file should have all uppercase letters with - as gaps (not . )
 [] add readme to each folder in the repo
 [] Tell Brooke to edit the Adabmdca repo with her code
