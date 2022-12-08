@@ -10,11 +10,11 @@ Generative Model for protein sequences and generally for categorical data.
 
 - jupyter/
 
-    Contains jupyter notebooks that run the inference, generate new data and run tests on the model. 
+    Contains jupyter tutorial notebook that walks through running the inference, generate new data and running tests on the model. 
 
 - benchmark/
 
-    Contains implementation of published code and other developed code to compare other models (bmdca, ardca, VAE) to GENERALIST.
+    Contains implementation of published code and other developed code to compare other models (AdabmDCA, ArDCA, VAE) to GENERALIST.
 
 - todo.txt
 
@@ -28,6 +28,8 @@ Physics Department
 Laboratory of Computational Biophysics
 
 2022
+
+For questions about the code contact Hoda Akl: hodaakl@ufl.edu
 
 contact: 
 
