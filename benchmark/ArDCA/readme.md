@@ -2,7 +2,7 @@ For comparison with GENERALIST, we run the ArDCA [code](https://github.com/pagna
 
 [Trinquier J, Uguzzoni G, Pagnani A, Zamponi F, Weigt M. Efficient generative modeling of protein sequences using simple autoregressive models. Nat Commun. 2021;12: 5800. doi:10.1038/s41467-021-25756-4](https://www.nature.com/articles/s41467-021-25756-4)
 
-### What is in this folder?
+### What's in this folder?
 
 - ardca_julia_run.ipynb 
 
