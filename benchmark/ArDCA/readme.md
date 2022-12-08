@@ -1,6 +1,6 @@
-This is ArDCA algorithm presented in the paper 
+For comparison with GENERALIST, we run the ArDCA [code](https://github.com/pagnani/ArDCA) accompanying the paper 
 
-Trinquier J, Uguzzoni G, Pagnani A, Zamponi F, Weigt M. Efficient generative modeling of protein sequences using simple autoregressive models. Nat Commun. 2021;12: 5800. doi:10.1038/s41467-021-25756-4
+[Trinquier J, Uguzzoni G, Pagnani A, Zamponi F, Weigt M. Efficient generative modeling of protein sequences using simple autoregressive models. Nat Commun. 2021;12: 5800. doi:10.1038/s41467-021-25756-4](https://www.nature.com/articles/s41467-021-25756-4)
 
 ### What is in this folder?
 
