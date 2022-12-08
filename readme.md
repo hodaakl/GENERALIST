@@ -20,6 +20,9 @@ Generative Model for protein sequences and generally for categorical data.
 
     Contains list of to do items and ideas for this repo.  
 
+## Getting started
+
+- Hop to the [jupyter tutorial](https://github.com/hodaakl/GENERALIST/blob/main/jupyter/generalist_tutorial.ipynb), there we discuss how to run the inference, generate new data and run statistical and Hamming distance tests. 
 
 University of Florida  
 
@@ -29,7 +32,7 @@ Laboratory of Computational Biophysics
 
 2022
 
-For questions about the code contact Hoda Akl: hodaakl@ufl.edu
+For any questions or feedback [contact us](mailto:hodaakl@ufl.edu)
 
 contact: 
 
