@@ -90,45 +90,49 @@ def get_stable_seq(seq, p0, J, H , idx_entropic, stab_lim , gap_index = 20 ):
     return output
 
 
-# THE FOLLOWING FUNCTIONS ASSUME THAT THE J H AND SEQUENCE AND P0 are in the correct order  
-def CondProbForSite_fn(seq, site, J, H):
-    """Function that calculates the conditional probability P(any amino acid at site| amino acids happening in previous sites)
-    input:  seq (the sequence used to obtain the probability, relevant in determining which amino acids happened in previous sites)
-            site (the site we want to calculate the conditional probability at )
-            J , H (paramters from ArDCA code in Julia by Trinquire et. at 2021)
-    output: an array of the dimension 21 giving the probabilities of any amino acid hapening at that site"""
-    if site ==0:
-        raise ValueError('for site =0 use p0, site can not be zero for this function')
-    # an array of the previous positions
-    js = np.arange(0,site)
-    # sequences hapening before
-    ajs = seq[js]
-    # get the terms used in the probability , sum J and H
-    Jsum_v = np.sum(J[:, ajs, site, js], axis = 1)
-    h_v = H[:, site]
-    # Get probability 
-    prob_top = np.exp(h_v + Jsum_v ) #numerator 
-    zsite = np.sum(prob_top) # parition function (dinomenator)
-    prob = prob_top/zsite
-    return prob
-    
-def SeqProbability_fn(seq, p0, J, H, verbose= False):
-    """Function that calculates the probability of a sequence given the ARDCA model inferred parameters J and H 
-    input:  seq : sequence to be scored 
-            p0 : probabilities of first site -- obtained from ArDCA model 
-            J , H : obtained from ArDCA model"""
-    L = len(seq) # number of positions in the sequence 
-    # for every sequence find the probability
-    seqprob=1
-    for position in range(L):
-        # find out the amino acid happening there 
-        aa = seq[position]
-        if position ==0:
-            prob_arr = p0
-        else: 
-            prob_arr = CondProbForSite_fn(seq, position, J, H)
 
-        seqprob = seqprob*prob_arr[aa]
-        if verbose==True:
-            print(f'sanity check \n sum probabilities is {np.sum(prob_arr)} ')
-    return seqprob
+    
+
+
+# # THE FOLLOWING FUNCTIONS ASSUME THAT THE ORDERING IS THE ACTUAL ORDER OF THE PROTEIN-- NOT THE CASE WITH DEFAULT PARAMETERS FOR ARDCA
+# def CondProbForSite_fn(seq, site, J, H):
+#     """Function that calculates the conditional probability P(any amino acid at site| amino acids happening in previous sites)
+#     input:  seq (the sequence used to obtain the probability, relevant in determining which amino acids happened in previous sites)
+#             site (the site we want to calculate the conditional probability at )
+#             J , H (paramters from ArDCA code in Julia by Trinquire et. at 2021)
+#     output: an array of the dimension 21 giving the probabilities of any amino acid hapening at that site"""
+#     if site ==0:
+#         raise ValueError('for site =0 use p0, site can not be zero for this function')
+#     # an array of the previous positions
+#     js = np.arange(0,site)
+#     # sequences hapening before
+#     ajs = seq[js]
+#     # get the terms used in the probability , sum J and H
+#     Jsum_v = np.sum(J[:, ajs, site, js], axis = 1)
+#     h_v = H[:, site]
+#     # Get probability 
+#     prob_top = np.exp(h_v + Jsum_v ) #numerator 
+#     zsite = np.sum(prob_top) # parition function (dinomenator)
+#     prob = prob_top/zsite
+#     return prob
+
+# def SeqProbability_fn(seq, p0, J, H, verbose= False):
+#     """Function that calculates the probability of a sequence given the ARDCA model inferred parameters J and H 
+#     input:  seq : sequence to be scored 
+#             p0 : probabilities of first site -- obtained from ArDCA model 
+#             J , H : obtained from ArDCA model"""
+#     L = len(seq) # number of positions in the sequence 
+#     # for every sequence find the probability
+#     seqprob=1
+#     for position in range(L):
+#         # find out the amino acid happening there 
+#         aa = seq[position]
+#         if position ==0:
+#             prob_arr = p0
+#         else: 
+#             prob_arr = CondProbForSite_fn(seq, position, J, H)
+
+#         seqprob = seqprob*prob_arr[aa]
+#         if verbose==True:
+#             print(f'sanity check \n sum probabilities is {np.sum(prob_arr)} ')
+#     return seqprob
