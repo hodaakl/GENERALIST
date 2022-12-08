@@ -5,7 +5,9 @@ import torch
 from inference_fns import  calc_deri, calc_loglikelihood, adaptive_newparams
 from data_process_fns import  write_file 
 
-def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7),  use_gpu_if_avail = True): 
+def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,steps = int(10e7),  use_gpu_if_avail = True, \
+    beta1 = .8, beta2 = .999 ,eps = 1e-8  ,bng = 10, eng = 10): 
+
     """function that runs the inference -- optimization uses adam algorithm
         Input:
         fasta_path:  fasta file (msa) of protein family 
@@ -17,7 +19,8 @@ def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,st
         steps (default 10^7 ) : maximum number of allowed steps
         labels_inc (default true) : in the msa there are labels for sequences (the lines starting with > before the sequence) not only sequences.
         use_gpu_if_avail(default true): If GPU available the code defaults to using it. Set to False to use CPU anyway.
-
+        beta1, beta2, eps: for adam optimization algorithm. 
+        bng , eng : initialization of the gradient magnitude/parameter magnitude for the stopping criteria bng and eng < 1
         Outputs: 
         Written as files in the output directory: 
             Z: written as numpy and torch array in the output directory
@@ -59,16 +62,6 @@ def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,st
     filename_T = out_dir + f'/T_k{k}'
     filename_Zgrad = out_dir + f'/Z_grad_k{k}'
     filename_Tgrad = out_dir + f'/T_grad_k{k}'
-    #####
-    # DEFINE SOME PARAMS 
-    beta1 = .8      # for adaptive learning rate
-    beta2 = .999    # for adaptive learning rate
-    eps = 1e-8      # for adaptive learning rate
- 
-    i=0             # counter 
-    bng = 10        # initializing stopping criteria
-    eng = 10        # initializing stopping criteria
-    save_step=100   # save step
     ###
     mz = torch.zeros(z.shape)  ; mz = mz.to(device)  # for adaptive learning rate
     vz = torch.zeros(z.shape)  ; vz = vz.to(device)  # for adaptive learning rate
@@ -82,7 +75,7 @@ def generalist(sigmas, k , out_dir,  save_step = 100, thresh = 1, alpha = .01,st
     details = f'Adaptive algorithm\nwhile loop until norm(gradZ/T)/norm(Z/T)<{thresh}\nNon variational run\nUSING ADAM ALGORITHM\nalpha = {alpha}\nk={k}\nsaving every {save_step} steps\nmaximum steps ={steps}'
     write_file(filename, details)
     t0 = time.time()
-
+    i=0             # counter
     while (bng > thresh) or (eng > thresh):
         if i==0:
             print('started inference..')
