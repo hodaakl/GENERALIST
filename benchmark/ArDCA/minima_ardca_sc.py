@@ -1,6 +1,8 @@
 ### import packages 
 import numpy as np 
-from DataProcess import Numerify
+import sys
+sys.path.append('../src/')
+from data_process_fns import Numerify
 from prob_ardca_fns import get_stable_seq
 from collections import defaultdict
 ## Load the BPT1 numerical matrix 
