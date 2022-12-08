@@ -10,7 +10,7 @@
 
     Script that runs generalist algorithm given a fasta file , the latent dimension chosen by the user and the output directory. This script creates an output folder if it doesn't already exist and saves the inferred distribution parameter arrays (Z, Theta) in it. 
     
-    Then it those parameters to geenrate new sequences.
+    Then it uses those parameters to geenrate new sequences.
 
 - data_process_fns.py
 
