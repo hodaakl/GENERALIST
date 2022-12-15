@@ -15,6 +15,10 @@ Generative Model for protein sequences and generally for categorical data.
 - benchmark/
 
     Contains implementation of published code and other developed code to compare other models (AdabmDCA, ArDCA, VAE) to GENERALIST.
+    
+- previous_versions/
+
+    Contains folders of earlier versions of the code. 
 
 - todo.txt
 

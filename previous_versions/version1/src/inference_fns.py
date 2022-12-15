@@ -6,14 +6,14 @@ def calc_deri(z,t, sigmas):
     input: Z 
             t (theta)"""
     # get pi
-    g= torch.einsum("nk,dkl -> dnl",z,t)
+    g = torch.einsum("nk,dkl -> dnl",z,t)
     pi = torch.exp(- g)/ torch.sum(torch.exp(- g), axis =0 ).unsqueeze(0)
     # print(torch.sum(pi, axis = 0))
     error = pi - sigmas
     dLdz = torch.einsum("dkl,dnl -> nk",t.double(), error.double())
     dLdt = torch.einsum("nk,dnl -> dkl",z.double(), error.double())
     #
-    return dLdz, dLdt , g
+    return dLdz, dLdt, g 
 # @jit
 def calc_loglikelihood(sigmas,g):
     """calculates log likelihood likelihood given g - Z*theta and the data:sigmas """
