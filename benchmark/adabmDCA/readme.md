@@ -4,7 +4,7 @@ For comparison with GENERALIST, we run the adabmDCA [code](https://github.com/an
 
 Ran with the options
 ```
--I -s 1000 -n 20 -m 100 -z 1 -u 0.005 -v 0.005 -P -L -t 20 -e 40 -i 100000 -l 0.0 -S
+-I -s 1000 -n 20 -m 100 -z 1 -u 0.005 -v 0.005 -P -L -t 20 -e 40 -i 100000 -l 0.0 
 ```
 
 ### What's in this folder?
