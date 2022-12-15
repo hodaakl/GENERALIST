@@ -11,9 +11,9 @@ Ran with the options
 
 - HamiltonianFunctions.py
 
-    Contains functions to calculate the asssociated hamiltonian of a sequence, given by: 
+    Contains functions to calculate the negative of the asssociated hamiltonian of a sequence, given by: 
 
-    $ -\sum_{i} h_i(s_i) - \sum_{i < j} J_{i_j}(s_i, s_j) $
+    $ \sum_{i} h_i(s_i) + \sum_{i < j} J_{i_j}(s_i, s_j) $
     
     where $s_i$ is the amino acid present at the $i^{th}$ position in the sequence. 
 
@@ -22,3 +22,12 @@ Ran with the options
     - Calculate the negative of the hamiltonian according to the above equation, using the given ordering of fields and couplings stored in the array, or a search for the exact entry. Both methods produce the same results
     - Run the local minima search, to find the locally optimum sequence starting from a natural sequence. 
     - Run the local minima search, to find the locally optimum sequence starting from a random sequence. 
+
+## Usage
+- To write the .dat output file of adabmDCA to numpy arrays of fields and couplings, run 
+    ``` calc_J_and_h(fileName, protein) ```
+- To find a local optima from a given sequence, run
+    ``` find_min_seq(J_arr, h_arr, seq_i, stop_num) ```
+- To calculate the negative of the hamiltonian of a sequences, run
+    ``` calc_n_hamiltonian(J_arr, h_arr, seq) ``` 
+### For help with any function, run help(function_name) to see docstring

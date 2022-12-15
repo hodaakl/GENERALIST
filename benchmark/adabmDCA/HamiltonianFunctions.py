@@ -59,12 +59,12 @@ def calc_J_and_h(fileName, protein):
 
 def calc_n_hamiltonian(J_arr, h_arr, seq):
     '''
-    Calculates negative of the Hamiltonian of arrays sorted as the function above outputs
+    Calculates negative of the Hamiltonian of arrays sorted as the calc_J_and_h function outputs
 
     inputs:
     - J_arr: the array of the couplings for the protein
     - h_arr: the array of the fields for the protein
-    - seq: the sequence to calculate the probability of
+    - seq: the sequence to calculate the probability for (length L numerical array)
     
     outputs:
     - nHamiltonian: the negative of the hamiltonian
@@ -73,6 +73,7 @@ def calc_n_hamiltonian(J_arr, h_arr, seq):
     H_h = 0
     H_j = 0
     x = 0
+    seq = seq.astype(int)
 
     for j in range(0, len(seq)):
         if(j>0):
@@ -98,7 +99,7 @@ def calc_n_hamiltonian_2(J_arr, h_arr, seq):
     inputs:
     - J_arr: the array of the couplings for the protein
     - h_arr: the array of the fields for the protein
-    - seq: the sequence to calculate the probability of
+    - seq: the sequence to calculate the probability for (length L numerical array)
     
     outputs:
     - nHamiltonian: the negative of the hamiltonian
@@ -106,7 +107,7 @@ def calc_n_hamiltonian_2(J_arr, h_arr, seq):
     H_h = 0
     H_j = 0
     J_pos = J_arr[:,:-1]
-    x = 0
+    seq = seq.astype(int)
     for i in range(len(seq)):
         H_h += h_arr[i, seq[i]]
         
