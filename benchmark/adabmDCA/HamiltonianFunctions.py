@@ -19,7 +19,6 @@ def calc_J_and_h(fileName, protein):
     file = open(fileName, 'r') # open(f'Potts/{protein}/Parameters_conv_{protein}_nw_20000.dat', 'r')
     count_J = 0
     count_h = 0
-    oops_count = 0
     x = 0
     y = 0
 
@@ -183,7 +182,7 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
     return seq, prob, seq_i, prob_i, count_tot
 
 
-def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):
+def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):  
     '''
     find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num): Function to find sequence with a local minima in energy from a randomly chosen starting sequence
 
