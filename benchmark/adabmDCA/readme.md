@@ -10,8 +10,6 @@ Ran with the options
 ### What's in this folder?
 
 - HamiltonianFunctions.py
-    We train adabmDCA with the BPT1 MSA present in ../Data/ and use the adabmDCA model generated sequences and run various tests to compare to GENERALIST.
-
     After training the model, we extract the following parameters: single site fields ``h``, two site couplings ``J``. These are stored in arrays that put ``J`` and ``h`` in the order 
 
     ---
