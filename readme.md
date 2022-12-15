@@ -5,6 +5,10 @@ doi:10.1101/2022.12.12.520114.
 
 Generative Model for protein sequences and generally for categorical data. 
 
+## Getting started
+
+- Hop to the [jupyter tutorial](https://github.com/hodaakl/GENERALIST/blob/main/jupyter/generalist_tutorial.ipynb), there we discuss how to run the inference, generate new data and run statistical and Hamming distance tests. 
+
 
 ## What's in this repo? 
 - src/ 
@@ -26,10 +30,6 @@ Generative Model for protein sequences and generally for categorical data.
 - todo.txt
 
     Contains list of to do items and ideas for this repo.  
-
-## Getting started
-
-- Hop to the [jupyter tutorial](https://github.com/hodaakl/GENERALIST/blob/main/jupyter/generalist_tutorial.ipynb), there we discuss how to run the inference, generate new data and run statistical and Hamming distance tests. 
 
 University of Florida  
 
