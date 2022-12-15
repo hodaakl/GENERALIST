@@ -1,5 +1,6 @@
 # [GENERALIST: An efficient generative model for protein sequence families](https://www.biorxiv.org/content/10.1101/2022.12.12.520114v1)
 Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushottam Dixit
+
 doi:10.1101/2022.12.12.520114.
 
 
