@@ -6,19 +6,19 @@ A library to calculate the negative of the hamiltonian of the sequences outputte
 Muntoni, A.P., Pagnani, A., Weigt, M. et al. adabmDCA: adaptive Boltzmann machine learning for biological sequences. BMC Bioinformatics 22, 528 (2021). https://doi.org/10.1186/s12859-021-04441-9
 '''
 
-'''
-Reads standard .dat output file from the adabmDCA method and saves J and h into seperate numpy arrays
-
-input: 
- - fileName: name of data file
- - protein: string, name of protein for labeling purposes
- 
-'''
 def calc_J_and_h(fileName, protein):
+    '''
+    Reads standard .dat output file from the adabmDCA method and saves J and h into seperate numpy arrays
+
+    input: 
+    - fileName: name of data file
+    - protein: string, name of protein for labeling purposes
+    
+    '''
+
     file = open(fileName, 'r') # open(f'Potts/{protein}/Parameters_conv_{protein}_nw_20000.dat', 'r')
     count_J = 0
     count_h = 0
-    oops_count = 0
     x = 0
     y = 0
 
@@ -57,21 +57,23 @@ def calc_J_and_h(fileName, protein):
     np.save(f'Potts/{protein}/J_arr_{protein}', ij_arr)
     np.save(f'Potts/{protein}/h_arr_{protein}', i_arr)
 
-'''
-Calculates negative of the Hamiltonian of arrays sorted as the function above outputs
-
-inputs:
- - J_arr: the array of the couplings for the protein
- - h_arr: the array of the fields for the protein
- - seq: the sequence to calculate the probability of
- 
-outputs:
- - nHamiltonian: the negative of the hamiltonian
-'''
 def calc_n_hamiltonian(J_arr, h_arr, seq):
+    '''
+    Calculates negative of the Hamiltonian of arrays sorted as the calc_J_and_h function outputs
+
+    inputs:
+    - J_arr: the array of the couplings for the protein
+    - h_arr: the array of the fields for the protein
+    - seq: the sequence to calculate the probability for (length L numerical array)
+    
+    outputs:
+    - nHamiltonian: the negative of the hamiltonian
+    '''
+
     H_h = 0
     H_j = 0
     x = 0
+    seq = seq.astype(int)
 
     for j in range(0, len(seq)):
         if(j>0):
@@ -90,22 +92,22 @@ def calc_n_hamiltonian(J_arr, h_arr, seq):
 
     return nHamiltonian
 
-'''
-An alternative method for calculating the hamiltonian. This does not depend on the order of the array. It is more general but it also takes significantly more time and for adabmDCA produces the same results
-
-inputs:
- - J_arr: the array of the couplings for the protein
- - h_arr: the array of the fields for the protein
- - seq: the sequence to calculate the probability of
- 
-outputs:
- - nHamiltonian: the negative of the hamiltonian
-'''
 def calc_n_hamiltonian_2(J_arr, h_arr, seq):
+    '''
+    An alternative method for calculating the hamiltonian. This does not depend on the order of the array. It is more general but it also takes significantly more time and for adabmDCA produces the same results
+
+    inputs:
+    - J_arr: the array of the couplings for the protein
+    - h_arr: the array of the fields for the protein
+    - seq: the sequence to calculate the probability for (length L numerical array)
+    
+    outputs:
+    - nHamiltonian: the negative of the hamiltonian
+    '''
     H_h = 0
     H_j = 0
     J_pos = J_arr[:,:-1]
-    x = 0
+    seq = seq.astype(int)
     for i in range(len(seq)):
         H_h += h_arr[i, seq[i]]
         
@@ -124,22 +126,23 @@ def calc_n_hamiltonian_2(J_arr, h_arr, seq):
     
     return nHamiltonian
 
-'''
-find_min_seq(J_arr, h_arr, seq, stop_num): Function to find sequence with a local minima in energy from a given starting sequence
-
-inputs:
- - J_arr: the array of the couplings for the protein
- - h_arr: the array of the fields for the protein
- - seq_i: sequence we would like to start from
- - stop_num: stop_num * length of sequence is how long the algorithm will search for a mutation with a higher probability
-
-returns:
- - seq: the sequence that we converge on
- - prob: the probability of the sequence we converge on
- - seq_i: the original sequence
- - prob_i: the probability of the original sequence
-'''
 def find_min_seq(J_arr, h_arr, seq_i, stop_num):
+    '''
+    find_min_seq(J_arr, h_arr, seq, stop_num): Function to find sequence with a local minima in energy from a given starting sequence
+
+    inputs:
+    - J_arr: the array of the couplings for the protein
+    - h_arr: the array of the fields for the protein
+    - seq_i: sequence we would like to start from
+    - stop_num: stop_num * length of sequence is how long the algorithm will search for a mutation with a higher probability
+
+    returns:
+    - seq: the sequence that we converge on
+    - prob: the probability of the sequence we converge on
+    - seq_i: the original sequence
+    - prob_i: the probability of the original sequence
+    '''
+
     n = 20
     L = len(seq_i)
 
@@ -180,22 +183,22 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
     return seq, prob, seq_i, prob_i, count_tot
 
 
-'''
-find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num): Function to find sequence with a local minima in energy from a randomly chosen starting sequence
+def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):  
+    '''
+    find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num): Function to find sequence with a local minima in energy from a randomly chosen starting sequence
 
-inputs:
- - J_arr: the array of the couplings for the protein
- - h_arr: the array of the fields for the protein
- - seq_arr: array of the sequences in the MSA
- - stop_num: stop_num * length of sequence is how long the algorithm will search for a mutation with a higher probability
+    inputs:
+    - J_arr: the array of the couplings for the protein
+    - h_arr: the array of the fields for the protein
+    - seq_arr: array of the sequences in the MSA
+    - stop_num: stop_num * length of sequence is how long the algorithm will search for a mutation with a higher probability
 
-returns:
- - seq: the sequence that we converge on
- - seq_arr[n]: the original sequence
- - n: index of original sequence
- - prob_arr: array of the probability of the current sequence at every step
-'''
-def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):
+    returns:
+    - seq: the sequence that we converge on
+    - seq_arr[n]: the original sequence
+    - n: index of original sequence
+    - prob_arr: array of the probability of the current sequence at every step
+    '''
 
     AA_Letters = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
 
@@ -238,22 +241,3 @@ def find_min_from_rand_seq(J_arr, h_arr, seq_arr, stop_num):
 
     return seq, seq_arr[n], n, np.array(prob_f)
 
-
-def hamming_distance(Data, min_seq):
-    count = 0
-    ham_dis = np.zeros(Data.shape[0])
-
-    for seq in Data:
-        for i in range(len(seq)):
-            if(min_seq[i] != seq[i]):
-                # print(i, 'is different in', count)
-                ham_dis[count] += 1
-        count += 1
-        # print(ham_dis)
-        # if(count%5000 == 0):
-        #     print('sample count', str(count))
-
-        # print(ham_dis.size)
-
-    min_ham_dis = np.min(ham_dis)
-    return min_ham_dis
