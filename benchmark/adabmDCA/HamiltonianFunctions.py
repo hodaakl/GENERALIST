@@ -73,12 +73,11 @@ def calc_n_hamiltonian(J_arr, h_arr, seq):
     H_h = 0
     H_j = 0
     x = 0
-    seq = seq.astype(int)
 
     for j in range(0, len(seq)):
         if(j>0):
             x += 50-(j-1)
-        H_h += h_arr[j, seq[j]]
+        H_h += h_arr[21*j + seq[j], 2]
 
         for k in range(j + 1, len(seq)):
             n  = (x + (k-j-1))*(21**2)
@@ -107,9 +106,9 @@ def calc_n_hamiltonian_2(J_arr, h_arr, seq):
     H_h = 0
     H_j = 0
     J_pos = J_arr[:,:-1]
-    seq = seq.astype(int)
+    # seq = seq.astype(int)
     for i in range(len(seq)):
-        H_h += h_arr[i, seq[i]]
+        H_h += h_arr[21*j + seq[j], 2]
         
         for j in range(i + 1, len(seq)):
             
@@ -133,7 +132,7 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
     inputs:
     - J_arr: the array of the couplings for the protein
     - h_arr: the array of the fields for the protein
-    - seq_i: sequence we would like to start from
+    - seq_i: sequence we would like to start from (length L numerical array)
     - stop_num: stop_num * length of sequence is how long the algorithm will search for a mutation with a higher probability
 
     returns:
@@ -148,6 +147,7 @@ def find_min_seq(J_arr, h_arr, seq_i, stop_num):
 
     count = 0 # count of how many steps we have gone without finding a better sequence
     count_tot = 0
+    seq_i = seq_i.astype(int)
 
     seq = list(seq_i); seq_changed = list(seq_i) # Initialize the sequence_i and sequence changed
 
