@@ -11,7 +11,7 @@ Ran with the options
 
 - HamiltonianFunctions.py
 
-    The asssociated hamiltonian of a sequence can be calculated as: 
+    Contains functions to calculate the asssociated hamiltonian of a sequence, given by: 
 
     $ -\sum_{i} h_i(s_i) - \sum_{i < j} J_{i_j}(s_i, s_j) $
     
