@@ -10,10 +10,6 @@ Ran with the options
 ### What's in this folder?
 
 - HamiltonianFunctions.py
-    After training the model, we extract the following parameters: single site fields ``h``, two site couplings ``J``. These are stored in arrays that put ``J`` and ``h`` in the order 
-
-    ---
-    > $h = [h_1, h_2, ..., h_L]$  and $J = [J_{12}, J_{13}, ..., J_{1L}, J_{23}, J_{24} ... J_{(L-1)L}]$
 
     The asssociated hamiltonian of a sequence can be calculated as: 
 
