@@ -13,7 +13,7 @@ Ran with the options
 
     Contains functions to calculate the asssociated hamiltonian of a sequence, given by: 
 
-    $ -\sum_{i} h_i(s_i) - \sum_{i < j} J_{i_j}(s_i, s_j) $
+    $-\sum_{i} h_i(s_i) - \sum_{i < j} J_{i_j}(s_i, s_j)$
     
     where $s_i$ is the amino acid present at the $i^{th}$ position in the sequence. 
 
