@@ -1,7 +1,10 @@
-# GENERALIST: An efficient generative model for protein sequence families
-Authors: Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushottam Dixit
+# [GENERALIST: An efficient generative model for protein sequence families](https://www.biorxiv.org/content/10.1101/2022.12.12.520114v1)
+Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushottam Dixit
+doi:10.1101/2022.12.12.520114.
+
 
 Generative Model for protein sequences and generally for categorical data. 
+
 
 ## What's in this repo? 
 - src/ 
@@ -37,6 +40,8 @@ Laboratory of Computational Biophysics
 2022
 
 For any questions or feedback [contact us](mailto:hodaakl@ufl.edu)
+
+Please cite if you utelize the code to any extent. 
 
 contact: 
 
