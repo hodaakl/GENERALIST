@@ -16,6 +16,7 @@ def calc_J_and_h(fileName, protein):
     
     '''
 
+    filePath = f'Potts/{protein}'
     file = open(fileName, 'r')
     count_J = 0
     count_h = 0
@@ -54,8 +55,8 @@ def calc_J_and_h(fileName, protein):
         if(count_J%5000 == 0):
             print(count_J)
 
-    np.save(f'Potts/{protein}/J_arr_{protein}', ij_arr)
-    np.save(f'Potts/{protein}/h_arr_{protein}', i_arr)
+    np.save(f'{filePath}/J_arr_{protein}', ij_arr)
+    np.save(f'{filePath}/h_arr_{protein}', i_arr)
 
 def calc_n_hamiltonian(J_arr, h_arr, seq):
     '''
