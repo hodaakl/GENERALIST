@@ -16,7 +16,7 @@ def calc_J_and_h(fileName, protein):
     
     '''
 
-    file = open(fileName, 'r') # open(f'Potts/{protein}/Parameters_conv_{protein}_nw_20000.dat', 'r')
+    file = open(fileName, 'r')
     count_J = 0
     count_h = 0
     x = 0
@@ -29,7 +29,7 @@ def calc_J_and_h(fileName, protein):
             y+=1
 
     file.close()
-    file = open(fileName, 'r') # open(f'Potts/{protein}/Parameters_conv_{protein}_nw_20000.dat', 'r')
+    file = open(fileName, 'r')
 
     ij_arr = np.zeros((x, 5))
     i_arr = np.zeros((y,3))
