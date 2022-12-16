@@ -3,8 +3,9 @@ Hoda Akl, Brooke Emison, Xiaochuan Zhao , Arup Mondal, Alberto Perez, Purushotta
 
 doi:10.1101/2022.12.12.520114.
 
+Please cite if you utelize the code to any extent. 
 
-Generative Model for protein sequences and generally for categorical data. 
+Code implementing a generative Model for protein sequences and more generally for categorical data. 
 
 ## Getting started
 
@@ -41,8 +42,6 @@ Laboratory of Computational Biophysics
 2022
 
 For any questions or feedback [contact us](mailto:hodaakl@ufl.edu)
-
-Please cite if you utelize the code to any extent. 
 
 contact: 
 
