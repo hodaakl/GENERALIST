@@ -8,7 +8,7 @@ Generative Model for protein sequences and generally for categorical data.
 
 ## Getting started
 
-- Hop to the [jupyter tutorial](https://github.com/hodaakl/GENERALIST/blob/main/jupyter/generalist_tutorial.ipynb), there we discuss how to run the inference, generate new data and run statistical and Hamming distance tests. 
+- Clone the repo and hop to the [jupyter tutorial](https://github.com/hodaakl/GENERALIST/blob/main/jupyter/generalist_tutorial.ipynb), there we discuss how to run the inference, generate new data and run statistical and Hamming distance tests. 
 
 
 ## What's in this repo? 
