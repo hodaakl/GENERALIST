@@ -6,7 +6,7 @@ from data_process_fns import Binarify
 # define the class 
 
 class Generalist:
-    def __init__(self, one_hot_data, k):
+    def __init__(self, one_hot_data, k,  z_init = None, t_init = None ):
         """Initializing the instance 
         Input: 
             one_hot_data : of shape (number of categories, number of samples, number of features)
@@ -26,14 +26,22 @@ class Generalist:
         self.sigmas = one_hot_data
         self.k = k
         # initialize the Z and theta 
-        z = torch.rand(self.nS, k); z = z/torch.linalg.norm(z) 
-        t = torch.rand(self.nA, k, self.nP) ; t = t/torch.linalg.norm(t)
+        # z = torch.rand(self.nS, k); z = z/torch.linalg.norm(z) 
+        # t = torch.rand(self.nA, k, self.nP) ; t = t/torch.linalg.norm(t)
+        minlim = -1 ; maxlim = 1
+        z = (minlim - maxlim)* torch.rand(self.nS,k) + maxlim ; z = z/torch.linalg.norm(z) 
+        t = (minlim - maxlim)* torch.rand(self.nA, k, self.nP) + maxlim; t = t/torch.linalg.norm(t)
+        if z_init != None: 
+            z = z_init
+        if t_init != None:
+            t = t_init
+
         # calculate probability matrix according to the model
         exponent=  torch.einsum("nk,dkl -> dnl",z,t)
         pi = torch.exp( - exponent)/ torch.sum(torch.exp(-  exponent), axis =0 ).unsqueeze(0)
         self.z = z ; self.t = t ; self.pi = pi  
 
-    def train(self, thresh = 1, alpha = .01,steps = int(10e7),  use_gpu_if_avail = True, beta1 = .8, beta2 = .999 ,eps = 1e-8  ,zng = 10, tng = 10 ):
+    def train(self, thresh = 1, alpha = .01,steps = int(10e7), optimizer ='adam',  use_gpu_if_avail = True, beta1 = .8, beta2 = .999 ,eps = 1e-8  ,zng = 10, tng = 10 ):
         """method to train model until the stopping criteria is met : |grad z | /|z| and |grad t |/|t| < 1 
          -- optimization uses adam algorithm
         Inputs: 
@@ -63,7 +71,11 @@ class Generalist:
             # calculate derivative 
             der_z, der_t, exponent= calc_deri(z,t,sigmas)
             # change the parameters 
-            z, t , mz, mt, vz, vt= adaptive_newparams(z,t,mz,mt,vz,vt, der_z, der_t, beta1 =beta1 , beta2  =beta2, alpha = alpha, i = i, eps = eps)
+            if optimizer=='adam':
+                z, t , mz, mt, vz, vt= adaptive_newparams(z,t,mz,mt,vz,vt, der_z, der_t, beta1 =beta1 , beta2  =beta2, alpha = alpha, i = i, eps = eps)
+            elif optimizer == 'reg':
+                z = z + alpha*der_z
+                t = t + alpha*der_t
             # get the stopping criteria 
             zng = torch.linalg.norm(der_z)/torch.linalg.norm(z) ; tng = torch.linalg.norm(der_t)/torch.linalg.norm(t)
             # add to the log likelihood array and the gradients array
@@ -79,14 +91,14 @@ class Generalist:
                 print('reached maximum steps, quitting inference -- consider increasing the max number of steps allowed')
                 break    
         t1 = time.time()
-        print(f'inference is over\nstep takes {(t1-t0)/i} seconds ')
+        print(f'inference is over\nstep on avg takes {(t1-t0)/i} seconds ')
         ### Truncate the arrays 
         Larr = Larr[:i]; zng_arr= zng_arr[:i];  tng_arr=tng_arr[:i]
         ## pi 
         exponent= torch.einsum("nk,dkl -> dnl",z,t)
         pi = torch.exp(- exponent)/ torch.sum(torch.exp(- exponent), axis =0 ).unsqueeze(0)
         self.z  = z; self.t = t; self.pi = pi ;  self.Larr = Larr ; self.zng_arr = zng_arr ; self.tng_arr = tng_arr 
-        print(f'inference done in {(t1-t0)/60} minutes for k = {self.k}')
+        print(f'inference done in {(t1-t0)/60} minutes for k = {self.k}, in {i} steps')
         return 
 
     def generate(self, nGen, output_binary = False, output_params=False):
