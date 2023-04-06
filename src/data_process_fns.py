@@ -19,7 +19,7 @@ def Binarify(matrix):
     nA = number of categories 
     """
     # Check that the entries are numerical and not categorical. 
-    if np.max(matrix)==1: 
+    if matrix.shape==3: 
         print('Matrix Already Binary: output is the input')
         output = matrix
     else:
