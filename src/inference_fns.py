@@ -19,12 +19,17 @@ def calc_loglikelihood(sigmas,g):
     """calculates log likelihood likelihood given g - Z*theta and the data:sigmas """
     L = - torch.sum(torch.multiply(sigmas, g)) - torch.sum(torch.log(torch.sum(torch.exp(- g),axis = 0)))
     return L 
-def adaptive_newparams(z,t,mz,mt, vz,vt, der_z, der_t, beta1 =.8 , beta2  = .999, alpha = .1, i = 1, eps = 1e-8):
+def adaptive_newparams(z,t,mz,mt, vz,vt, der_z, der_t, beta1 =.8 , beta2  = .999, alpha = .1, i = 1, eps = 1e-8, optimizer  = 'adam'):
     """Calculates the new parameters using the old parameters through ADAM algorithm"""
     mz = beta1*mz + (1-beta1)*der_z
     mt = beta1*mt + (1-beta1)*der_t
-    vz = beta2*vz + (1-beta2)*der_z**2
-    vt = beta2*vt + (1-beta2)*der_t**2
+    if optimizer == 'adam':
+        vz = beta2*vz + (1-beta2)*der_z**2
+        vt = beta2*vt + (1-beta2)*der_t**2
+    elif optimizer == 'yogi':
+        vz = vz - (1-beta2)*torch.sign(vz - der_z**2)*der_z**2
+        vt = vt - (1-beta2)*torch.sign(vt - der_t**2)*der_t**2
+        pass
     ##### unbias 
     mzhat = mz/(1-beta1**(i+1))
     mthat  = mt/(1-beta1**(i+1))
