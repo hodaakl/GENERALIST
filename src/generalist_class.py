@@ -6,7 +6,7 @@ from data_process_fns import Binarify
 # define the class 
 
 class Generalist:
-    def __init__(self, one_hot_data, k,  z_init =  torch.Tensor([]), t_init = torch.Tensor([]) , param_init = 'svd' ):
+    def __init__(self, one_hot_data, k,  z_init =  torch.Tensor([]), t_init = torch.Tensor([]) , param_init = 'rand' ):
         """Initializing the instance 
         Input: 
             one_hot_data : of shape (number of categories, number of samples, number of features)
