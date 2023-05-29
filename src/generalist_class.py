@@ -6,14 +6,13 @@ from data_process_fns import Binarify
 # define the class 
 
 class Generalist:
-    def __init__(self, one_hot_data, k,  z_init =  torch.Tensor([]), t_init = torch.Tensor([]) , param_init = 'rand' ):
+    def __init__(self, one_hot_data, k,  z_init =  torch.Tensor([]), t_init = torch.Tensor([])):
         """Initializing the instance 
         Input: 
             one_hot_data : of shape (number of categories, number of samples, number of features)
             k: user chosen latent dimension for the model
             z_init : torch tensor of shape (number of samples, k) specified by the user to initialize z 
             t_init : torch tensor of shape (number of categories, k, number of features) specified by the user to initialize theta
-            param_init : if the user does not specify initializations, then we default to svd decomposition to initialize z and t
         Attributes: 
             self.nA : number of categories from the one hot encoded data
             self.nS : number of samples
@@ -33,36 +32,21 @@ class Generalist:
         ## Parameter initialization, if the user specified any of the parameters     
         init_shapez =  z_init.shape[0]
         init_shapet = t_init.shape[0]
+        minlim = -1 ; maxlim = 1
         if init_shapez != 0: 
             z = z_init
-        elif param_init =='rand':
-            minlim = -1 ; maxlim = 1
+        else: # if user didn't specify parameters then randomly initialize
             z = (minlim - maxlim)* torch.rand(self.nS,k) + maxlim ; z = z/torch.linalg.norm(z) 
         if init_shapet != 0:
             t = t_init
-        elif param_init=='rand':
-            minlim = -1 ; maxlim = 1
+        else: # if user didn't specify parameters then randomly initialize
             t = (minlim - maxlim)* torch.rand(self.nA, k, self.nP) + maxlim; t = t/torch.linalg.norm(t)
-        ### default
-        if ((init_shapet == 0) & (init_shapez == 0) & (param_init=='svd')): 
-            nA, nS, nP = self.nA, self.nS, self.nP
-            data_resh = torch.swapaxes(one_hot_data, 0,-1)
-            data_resh = torch.swapaxes(data_resh, 0,1)
-            data_resh = torch.reshape(data_resh, (nS, nP*nA))
-            u, s, vh = torch.linalg.svd(data_resh, full_matrices=False)
-            z = u[:,:k]
-            t = torch.diag(s)[:k,:k] @ vh[:k,:]
-            # t = torch.diag(s) @ vh ; t = t[:k,:]
-            t = torch.reshape(t , (nA,k,nP))
-
         # calculate probability matrix according to the model
         exponent=  torch.einsum("nk,dkl -> dnl",z,t)
         pi = torch.exp( - exponent)/ torch.sum(torch.exp(-  exponent), axis =0 ).unsqueeze(0)
         self.z = z ; self.t = t ; self.pi = pi  
-        # print(z.shape)
-        # print(t.shape)
-
-    def train(self, thresh = 1, alpha = .01,steps = int(10e7), optimizer ='adam',  use_gpu_if_avail = True, beta1 = .8, beta2 = .999 ,eps = 1e-8  ,zng = 10, tng = 10 , verbose = True):
+        
+    def train(self, thresh = 1, alpha = .01,steps = int(10e7), optimizer ='adam',  use_gpu_if_avail = True, beta1 = .8, beta2 = .999 ,eps = 1e-8  ,zng = 10, tng = 10 , verbose = True, lambda_=0):
         """method to train model until the stopping criteria is met : |grad z | /|z| and |grad t |/|t| < 1 
          -- optimization uses adam algorithm
         Inputs: 
@@ -84,33 +68,30 @@ class Generalist:
         mz = torch.zeros(z.shape) ; vz = torch.zeros(z.shape) ;mt = torch.zeros(t.shape) ;vt = torch.zeros(t.shape) 
         mz = mz.to(device) ; vz = vz.to(device) ; mt = mt.to(device) ; vt = vt.to(device)
         Larr = torch.zeros(steps)  ; Larr = Larr.to(device)  # initializing the log likelihood array 
-        zng_arr = torch.zeros(steps) ; zng_arr = zng_arr.to(device)# B norm grad
-        tng_arr = torch.zeros(steps) ; tng_arr = tng_arr.to(device)# E norn grad
+        # zng_arr = torch.zeros(steps) ; zng_arr = zng_arr.to(device)# B norm grad
+        # tng_arr = torch.zeros(steps) ; tng_arr = tng_arr.to(device)# E norn grad
+        z = z.to(device) ; t = t.to(device)
         t0 = time.time()
         i=0             # counter
         while (zng > thresh) or (tng > thresh):
             if i==0:
                 if verbose == True:
                     print('started inference...')
-            # calculate derivative 
-            der_z, der_t, exponent= calc_deri(z,t,sigmas)
-            # change the parameters 
+             
+            der_z, der_t, exponent= calc_deri(z,t,sigmas,lambda_) # calculate derivative
+            # update  parameters 
             if (optimizer=='adam' or optimizer =='yogi'):
                 z, t , mz, mt, vz, vt= adaptive_newparams(z,t,mz,mt,vz,vt, der_z, der_t, beta1 =beta1 , beta2  =beta2, alpha = alpha, i = i, eps = eps, optimizer = optimizer)
-            
-            # elif optimizer == 'yogi':
-            #     z, t , mz, mt, vz, vt= adaptive_newparams(z,t,mz,mt,vz,vt, der_z, der_t, beta1 =beta1 , beta2  =beta2, alpha = alpha, i = i, eps = eps)
 
             elif optimizer == 'reg':
                 z = z + alpha*der_z
                 t = t + alpha*der_t
-            # get the stopping criteria 
+            # calculate stopping criteria condition
             zng = torch.linalg.norm(der_z)/(torch.linalg.norm(z)); tng = torch.linalg.norm(der_t)/(torch.linalg.norm(t))
-            # add to the log likelihood array and the gradients array
+   
             Larr[i] = calc_loglikelihood(sigmas,exponent) 
-            zng_arr[i] = zng 
-            tng_arr[i] = tng
-            i=i+1 # add 1 to counter 
+
+            i=i+1
             # 
             if i==1:
                 if verbose == True:
@@ -124,11 +105,11 @@ class Generalist:
         if verbose == True:
             print(f'inference is over\nstep on avg takes {(t1-t0)/i} seconds ')
         ### Truncate the arrays 
-        Larr = Larr[:i]; zng_arr= zng_arr[:i];  tng_arr=tng_arr[:i]
+        Larr = Larr[:i]#; zng_arr= zng_arr[:i];  tng_arr=tng_arr[:i]
         ## pi 
         exponent= torch.einsum("nk,dkl -> dnl",z,t)
         pi = torch.exp(- exponent)/ torch.sum(torch.exp(- exponent), axis =0 ).unsqueeze(0)
-        self.z  = z; self.t = t; self.pi = pi ;  self.Larr = Larr ; self.zng_arr = zng_arr ; self.tng_arr = tng_arr 
+        self.z  = z; self.t = t; self.pi = pi ;  self.Larr = Larr 
         if verbose == True:
             print(f'inference done in {(t1-t0)/60} minutes for k = {self.k}, in {i} steps')
         return 
