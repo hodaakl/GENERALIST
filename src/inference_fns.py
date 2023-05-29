@@ -1,7 +1,5 @@
 import torch 
-
-
-def calc_deri(z,t, sigmas):
+def calc_deri(z,t, sigmas, lambda_ = 0):
     """Get the derivative of the log likelihood with respect to z and theta
     input: Z 
             t (theta)"""
@@ -10,15 +8,16 @@ def calc_deri(z,t, sigmas):
     pi = torch.exp(- g)/ torch.sum(torch.exp(- g), axis =0 ).unsqueeze(0)
     # print(torch.sum(pi, axis = 0))
     error = pi - sigmas
-    dLdz = torch.einsum("dkl,dnl -> nk",t.double(), error.double())
-    dLdt = torch.einsum("nk,dnl -> dkl",z.double(), error.double())
+    dLdz = torch.einsum("dkl,dnl -> nk",t.double(), error.double()) - 2*lambda_*z
+    dLdt = torch.einsum("nk,dnl -> dkl",z.double(), error.double()) - 2*lambda_*t
     #
     return dLdz, dLdt , g
-# @jit
+
 def calc_loglikelihood(sigmas,g):
     """calculates log likelihood likelihood given g - Z*theta and the data:sigmas """
     L = - torch.sum(torch.multiply(sigmas, g)) - torch.sum(torch.log(torch.sum(torch.exp(- g),axis = 0)))
     return L 
+
 def adaptive_newparams(z,t,mz,mt, vz,vt, der_z, der_t, beta1 =.8 , beta2  = .999, alpha = .1, i = 1, eps = 1e-8, optimizer  = 'adam'):
     """Calculates the new parameters using the old parameters through ADAM algorithm"""
     mz = beta1*mz + (1-beta1)*der_z
@@ -36,9 +35,6 @@ def adaptive_newparams(z,t,mz,mt, vz,vt, der_z, der_t, beta1 =.8 , beta2  = .999
 
     vzhat = vz/(1-beta2**(i+1))
     vthat = vt/(1-beta2**(i+1))
-    
-    # larr[i] = calc_loglikelihood(sigmas,g)
-    # print(score)
     z = z + alpha*mzhat/(torch.sqrt(vzhat) + eps)
     t = t + alpha*mthat/(torch.sqrt(vthat) + eps)
     return z,t , mz, mt, vz, vt
